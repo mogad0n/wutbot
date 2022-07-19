@@ -1,0 +1,6 @@
+# WutBot
+
+## Details
+
+* IRC bot using the [irc-go](https://github.com/ergochat/irc-go) libraries.
+* Not fit for public use.
