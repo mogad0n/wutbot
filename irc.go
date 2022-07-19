@@ -9,6 +9,7 @@ import (
 
 	"github.com/ergochat/irc-go/ircevent"
 	"github.com/ergochat/irc-go/ircmsg"
+	"github.com/joho/godotenv"
 )
 
 type empty struct{}
@@ -93,24 +94,28 @@ func ownerMatches(e ircmsg.Message, owner string) bool {
 }
 
 func newBot() *Bot {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Some error occured. Err: %s", err)
+	}
 	// required:
-	nick := os.Getenv("TITLEBOT_NICK")
-	server := os.Getenv("TITLEBOT_SERVER")
+	nick := os.Getenv("WUTBOT_NICK")
+	server := os.Getenv("WUTBOT_SERVER")
 	// required (comma-delimited list of channels)
-	channels := os.Getenv("TITLEBOT_CHANNELS")
+	channels := os.Getenv("WUTBOT_CHANNELS")
 	// SASL is optional:
-	saslLogin := os.Getenv("TITLEBOT_SASL_LOGIN")
-	saslPassword := os.Getenv("TITLEBOT_SASL_PASSWORD")
-	// owner is optional (if unset, titlebot won't accept any owner commands)
-	owner := os.Getenv("TITLEBOT_OWNER_ACCOUNT")
+	saslLogin := os.Getenv("WUTBOT_SASL_LOGIN")
+	saslPassword := os.Getenv("WUTBOT_SASL_PASSWORD")
+	// owner is optional (if unset, WUTBOT won't accept any owner commands)
+	owner := os.Getenv("WUTBOT_OWNER_ACCOUNT")
 	// more optional settings
-	version := os.Getenv("TITLEBOT_VERSION")
+	version := os.Getenv("WUTBOT_VERSION")
 	if version == "" {
 		version = "github.com/ergochat/irc-go"
 	}
-	debug := os.Getenv("TITLEBOT_DEBUG") != ""
-	insecure := os.Getenv("TITLEBOT_INSECURE_SKIP_VERIFY") != ""
-	userAgent := os.Getenv("TITLEBOT_USER_AGENT")
+	debug := os.Getenv("WUTBOT_DEBUG") != ""
+	insecure := os.Getenv("WUTBOT_INSECURE_SKIP_VERIFY") != ""
+	userAgent := os.Getenv("WUTBOT_USER_AGENT")
 	if userAgent == "" {
 		userAgent = defaultUserAgent
 	}
