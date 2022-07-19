@@ -44,13 +44,13 @@ func (b *Bot) releaseSemaphore() {
 	<-b.semaphore
 }
 
-func (irc *Bot) checkErr(err error, message string) (fatal bool) {
-	if err != nil {
-		irc.Log.Printf("%s: %v", message, err)
-		return true
-	}
-	return false
-}
+// func (irc *Bot) checkErr(err error, message string) (fatal bool) {
+// 	if err != nil {
+// 		irc.Log.Printf("%s: %v", message, err)
+// 		return true
+// 	}
+// 	return false
+// }
 
 // Helper Functions
 
@@ -101,8 +101,6 @@ func newBot() *Bot {
 	// SASL is optional:
 	saslLogin := os.Getenv("TITLEBOT_SASL_LOGIN")
 	saslPassword := os.Getenv("TITLEBOT_SASL_PASSWORD")
-	// a Twitter API key (v2-capable) is optional (if unset, Twitter support is disabled):
-	twitterToken := os.Getenv("TITLEBOT_TWITTER_BEARER_TOKEN")
 	// owner is optional (if unset, titlebot won't accept any owner commands)
 	owner := os.Getenv("TITLEBOT_OWNER_ACCOUNT")
 	// more optional settings
@@ -134,10 +132,9 @@ func newBot() *Bot {
 			QuitMessage:  version,
 			Debug:        debug,
 		},
-		TwitterBearerToken: twitterToken,
-		Owner:              owner,
-		userAgent:          userAgent,
-		semaphore:          make(chan empty, concurrencyLimit),
+		Owner:     owner,
+		userAgent: userAgent,
+		semaphore: make(chan empty, concurrencyLimit),
 	}
 
 	irc.AddConnectCallback(func(e ircmsg.Message) {
